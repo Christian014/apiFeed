@@ -41,9 +41,9 @@ class User {
 
             const compare = await crypto.cryptoCompare(password, data.password)
             console.log(compare)
-            if(compare != true){
-                const error = new AppError("Email e/ou Senha Inválido", 404)
-                return res.send(error)
+
+            if(compare === false){
+                throw new AppError("Email e/ou Senha Inválido", 404)
             }
 
             const { secret, expiresIn } = configJwt.jwt;
@@ -53,10 +53,7 @@ class User {
                 expiresIn
             })
 
-            const response = new AppError("login", 200);
-            
-            console.log({token, data})
-            return res.send(response)
+            return res.status(200).json({data, token})
             
         }catch(err){ 
             console.log("error", err)

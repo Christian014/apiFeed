@@ -4,12 +4,11 @@ const AppError = require("../utils/appError");
 
 function ensureAuthenticated(req, res, next){
 
-    console.log("sdadsadsadssa")
     const authHeader = req.headers.authorization;
 
     if(!authHeader){
-        const res = new AppError("Token vazio", 404)
-        return next(res)
+       return res.status(401).json({message:"erro"})
+        
     }
 
     const [, token] = authHeader.split(" ");
@@ -21,12 +20,12 @@ function ensureAuthenticated(req, res, next){
             id: Number(user_id),
         };
 
-        console.log("com token")
+        
         return next()
         
-    }catch(err){
-        const res = new AppError("Error", err)
-        return next(res)
+    }catch{
+
+        throw new AppError("Error", 401);
     }
 }
 

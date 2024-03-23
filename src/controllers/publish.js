@@ -1,5 +1,6 @@
-const knexfile = require("../../knexfile");
+const knexfile = require("../../knexfile");                                       
 const knex = require("knex")(knexfile.development);
+const AppError = require("../utils/appError")
 
 class Publish {
     async createPublish(req, res){
@@ -12,10 +13,13 @@ class Publish {
                 user_id: id,
             })
 
-            res.status(200)
+            return res.status(200).json(data)
             
-        }catch(err){ 
-            console.log("error", err)
+        }catch(err){
+            
+            
+            return res.status(500)
+            
         }
     }
 
